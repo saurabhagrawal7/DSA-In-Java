@@ -1,0 +1,112 @@
+XOR operator (opposites attract & similar cancel outs)
+ - no of 1s odd => 1
+ - no of 1s even => 0
+
+Right Shift >> 1 = shift to right by 1 place
+Left Shift << 1 = shift to left by 1 place
+
+for e.g. 13 >> 1
+
+1   1   0   1  => 1x2^3 + 1x2^2 + 0x2^1 + 1x2^0
+0   1   1   0  => 1x2^2 + 1x2^1 + 0x2^0
+
+Any x >> k is (x / 2^k)
+Any num << k is num * 2^k
+
+Because in above example 1 digit got removed from end and rest got shifted by 1
+as it got shifted to right, its power also got reduced by 1 for e.g. 1x2^3 i.e. 8 became 1x2^2 i.e. 4
+what it means is it got divided by 2, as we divide the entire no/2^k i.e. 13/2 we get 6
+
+int has 32 bits - the first bit i.e. the last bit from left to right is reserved for sign &
+the rest are used to store numbers.
+
+whenever a machine has to store -ve no. it converts it into 2's compliment
+
+For INTEGER
+------------------------------------------------------------------------
+| Total Bits | Sign Bit | Value Bits | Range                           |
+| ---------- | -------- | ---------- | ------------------------------- |
+| 32         | 1        | 31         | −2,147,483,648 to 2,147,483,647 |
+------------------------------------------------------------------------
+
+NOT(~)
+1. flip
+2. check if it is -ve
+3. If it is, it will store 2's comp else will stop
+
+NOTE - 1 << i means 1 will be coming to ith index & rest all will be 0's
+
+CREATE MASK
+XOR & (-XOR) => ye karne se aapka rightmost bit tha woh 1 mil jayega baaki saare 0 hojayege
+
+
+Questions
+---------
+
+1. Swap 2 Numbers
+a = (a ^ b)
+b = (a ^ b) => value of a is (a^b) => (a ^ b) ^ b => a
+a = (a ^ b) => value of a is (a^b) & value of b is a => a ^ b ^ a => b
+
+2. Check if ith bit is set bit or not
+N = 13, i = 2
+using left shift
+if ((N & (1 << i)) != 0) "YES" : "NO"
+using right shift
+if ((N >> i) & 1 == 1) "YES" : "NO"
+
+3. Set ith bit
+N = 9, i = 2
+N | (1 << i)
+
+4. Clear ith bit
+N & ~(1 << i)
+
+5. Toggle ith bit
+N ^ (1 << i)
+
+6. Clear last set bit
+
+if we do N-1, rightmost first set bit is set to 0 & all bits to its right are changed to 1
+
+if N = 40
+101000
+100111
+
+N & (N - 1)
+
+7. Check if number is power of 2
+
+NOTE - Every power of 2 has only one set bit in its binary representation.
+
+if(N & (N - 1) == 0) - since power of 2 has only 1 set bit, it will be changed to 0 & rest right bits to 1
+& doing & operation of it will give 0
+
+8. Count number of set bits
+calc binary of num & count 1's
+
+Approach 2 - keep turning of right most set bits & count until number becomes 0
+
+while(N != 0) {
+    N = N & (N - 1)
+    cnt++;
+}
+
+9. Check even or odd
+for every odd number, last bit is set bit
+if(n&1 == 1) ? "ODD" : "EVEN"
+
+10. Minimum Bit Fips to convert a number
+logic - xor  will make similar bits as 0 and rest as 1's
+public int minBitFlips(int start, int goal) {
+        int n = start ^ goal;
+        int ans = 0;
+        while(n > 1) {
+            ans+= (n&1);
+            n = n >> 1;
+        }
+        if (n == 1) ans+=1;
+        return ans;
+    }
+
+11. Single Number II
