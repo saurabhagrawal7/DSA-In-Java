@@ -20,4 +20,21 @@ public class MinAddToMakeParenthesisValid {
 
         return ans;
     }
+
+    public int minAddToMakeValidConstantSpace(String s) {
+        int openCnt = 0, closeCnt = 0;
+        for (Character ch : s.toCharArray()) {
+            if (ch == '(') {
+                ++openCnt;
+            } else {
+                if (openCnt > 0) {
+                    --openCnt;
+                } else {
+                    ++closeCnt;
+                }
+            }
+        }
+
+        return openCnt + closeCnt;
+    }
 }
